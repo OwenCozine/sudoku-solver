@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class SudokuSolver {
   
@@ -7,29 +8,36 @@ public class SudokuSolver {
   
   public static void main(String[] args) {
     
-    //Hardcoded Board if none input
+    //Hardcoded board if user doesn't input
     int[][] board = {
-        {6, 0, 9, 0, 4, 0, 0, 0, 1},
-        {7, 1, 0, 5, 0, 9, 6, 0, 0},
-        {0, 5, 0, 0, 0, 0, 0, 0, 0},
-        {2, 0, 7, 0, 8, 0, 0, 9, 0},
-        {0, 0, 0, 0, 6, 0, 0, 2, 4},
-        {0, 6, 0, 9, 0, 0, 0, 0, 8},
-        {0, 0, 8, 0, 0, 0, 3, 0, 0},
-        {0, 0, 0, 4, 0, 0, 0, 0, 7},
-        {0, 0, 0, 0, 5, 0, 0, 0, 0} 
-      };
-    
+          {6, 0, 9, 0, 4, 0, 0, 0, 1},
+          {7, 1, 0, 5, 0, 9, 6, 0, 0},
+          {0, 5, 0, 0, 0, 0, 0, 0, 0},
+          {2, 0, 7, 0, 8, 0, 0, 9, 0},
+          {0, 0, 0, 0, 6, 0, 0, 2, 4},
+          {0, 6, 0, 9, 0, 0, 0, 0, 8},
+          {0, 0, 8, 0, 0, 0, 3, 0, 0},
+          {0, 0, 0, 4, 0, 0, 0, 0, 7},
+          {0, 0, 0, 0, 5, 0, 0, 0, 0} 
+        };
+    Scanner in = new Scanner(System.in);
+
+    System.out.println("Do you want to input a sudoku board? (y/n)");
+    if(Character.toLowerCase(in.nextLine().charAt(0)) == 'y')
+      fillBoard(board, in);
+     
+    System.out.println("\nHere is your board");
     printBoard(board);
     
     if (solveBoard(board)) {
-      System.out.println("\nSudoku solved\n");
+      System.out.println("\nSudoku solved");
     }
     else {
-      System.out.println("\nUnable to solve\n");
+      System.out.println("\nUnable to solve");
       return;
     }
-    
+
+
     printBoard(board);
     
   }
@@ -112,4 +120,17 @@ public class SudokuSolver {
     return true;
   }
   
+  public static void fillBoard(int[][] board, Scanner in){  
+    String hold;
+
+    for(int row = 0; row < GRID_SIZE; row++){ 
+      System.out.printf("Enter sudoku row %d\n", row + 1);
+      hold = in.nextLine().replaceAll("\\s+", "");
+      System.out.printf("hold is %s\n", hold);
+      for(int col = 0 ; col < GRID_SIZE; col++){  
+        board[row][col] = Character.getNumericValue(hold.charAt(col));
+      } 
+    } 
+  }
+
 }
